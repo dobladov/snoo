@@ -1,0 +1,30 @@
+{
+  "name": "snoo",
+  "version": "1.0.0",
+  "description": "Snoo",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build --no-source-maps src/index.html",
+    "test": "eslint ."
+  },
+  "browserslist": [
+    "last 1 chrome versions"
+  ],
+  "main": "index.js",
+  "author": "dobladov",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "parcel-bundler": "^1.8.1",
+    "parcel-plugin-svelte": "^4.0.5",
+    "svelte": "^3.5.1"
+  },
+  "dependencies": {
+    "feather-icons": "^4.25.0",
+    "parcel-plugin-inlinesvg": "^0.1.1"
+  }
+}

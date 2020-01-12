@@ -1,4 +1,6 @@
 <script>
+  import { DateTime } from "luxon";
+
   export let comments;
   export let depth;
   export let baseUrl;
@@ -46,7 +48,7 @@
             {comment.author}
           </a>
           {comment.ups} {comment.ups === 1 ? 'point' : 'points'} &nbsp; - &nbsp;
-          {new Date(comment.created).toDateString()}
+          {DateTime.fromSeconds(comment.created).toRelative()}
         </div>
         {comment.body}
       </li>

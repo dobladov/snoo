@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "feather-icons": "^4.25.0",
+    "luxon": "^1.21.3",
     "parcel-plugin-inlinesvg": "^0.1.1"
   }
 }

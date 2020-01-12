@@ -181,7 +181,7 @@
           &nbsp; {showComments ? 'Hide comments' : 'Show comments'}
         </button>
         {#if showComments}
-          <Comments {comments} depth={0} />
+          <Comments {baseUrl} {comments} depth={0} />
         {/if}
       {/if}
     {/if}

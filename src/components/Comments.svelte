@@ -1,6 +1,7 @@
 <script>
   export let comments;
   export let depth;
+  export let baseUrl;
 </script>
 
 <style>
@@ -41,7 +42,9 @@
     {#if comment.body}
       <li>
         <div class="meta">
-          <a href={`{baseURL}/u/${comment.author}`}>{comment.author}</a>
+          <a target="_blank" href={`${baseUrl}/u/${comment.author}`}>
+            {comment.author}
+          </a>
           {comment.ups} {comment.ups === 1 ? 'point' : 'points'} &nbsp; - &nbsp;
           {new Date(comment.created).toDateString()}
         </div>
@@ -50,6 +53,7 @@
 
       {#if comment.replies}
         <svelte:self
+          {baseUrl}
           comments={comment.replies.data.children}
           depth={depth + 1} />
       {/if}

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Snoo",
   "scripts": {
-    "start": "parcel src/index.html",
+    "start": "parcel --host 0.0.0.0 src/index.html",
     "build": "parcel build --no-source-maps src/index.html",
     "test": "eslint ."
   },

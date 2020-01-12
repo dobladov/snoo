@@ -7,10 +7,15 @@
 
   import cornerDownRightLogo from "feather-icons/dist/icons/corner-down-right.svg";
   import linkLogo from "feather-icons/dist/icons/link.svg";
+  import messageIcon from "feather-icons/dist/icons/message-square.svg";
 
   const baseUrl = "https://www.reddit.com";
   let videos;
   let comments;
+  let showComments =
+    localStorage.getItem("showComments") === null
+      ? window.innerWidth > 900
+      : JSON.parse(localStorage.getItem("showComments"));
 
   const [, sub] = (window.location.pathname &&
     window.location.pathname.match(/\/r\/(..*)/)) || [, null];
@@ -57,14 +62,12 @@
 
 <style>
   main {
-    padding: 20px;
-    display: flex;
+    padding: 10px;
   }
 
   section {
     flex: 2;
     overflow: hidden;
-    margin-right: 20px;
   }
 
   aside {
@@ -84,7 +87,7 @@
   }
 
   input[type="text"] {
-    font-size: 2rem;
+    width: 100%;
     padding-left: 5px;
     flex: 1;
     background-color: transparent;
@@ -115,6 +118,40 @@
     color: white;
     display: inline;
   }
+
+  .toggleComments {
+    background-color: #262c3c;
+    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset;
+    display: flex;
+    align-items: center;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+  }
+
+  @media (min-width: 900px) {
+    main {
+      display: flex;
+      padding: 20px;
+    }
+
+    section {
+      margin-right: 20px;
+    }
+
+    aside {
+      max-height: 90vh;
+      overflow: auto;
+      position: sticky;
+      top: calc(10px + 1.1rem);
+      scrollbar-width: none;
+    }
+
+    input[type="text"] {
+      font-size: 2rem;
+    }
+  }
 </style>
 
 <main>
@@ -134,7 +171,18 @@
       </div>
 
       {#if comments}
-        <Comments {comments} depth={0} />
+        <button
+          class="toggleComments"
+          on:click={() => {
+            showComments = !showComments;
+            localStorage.setItem('showComments', showComments);
+          }}>
+          {@html messageIcon}
+          &nbsp; {showComments ? 'Hide comments' : 'Show comments'}
+        </button>
+        {#if showComments}
+          <Comments {comments} depth={0} />
+        {/if}
       {/if}
     {/if}
   </section>

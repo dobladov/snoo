@@ -35,7 +35,7 @@
   };
 
   const loadMore = async id => {
-    after = null;
+    after = "loading";
     const res = await fetch(`${baseUrl}/r/${selected}/.json?after=${id}`);
     const json = await res.json();
     videos = videos.concat(json.data.children);
@@ -101,6 +101,7 @@
     color: white;
     border-radius: 20px 6px 10px 0;
     box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset;
+    padding-left: 15px;
   }
 
   .title {

@@ -49,6 +49,7 @@
     position: relative;
     overflow: hidden;
     min-height: 100px;
+    text-shadow: 1px 1px 1px #000000ba;
   }
 
   li.current .overlay {
@@ -60,23 +61,39 @@
     ) !important;
   }
 
-  li.current a {
-    color: #262c3c;
+  li a {
+    color: white;
+    font-weight: bold;
   }
 
-  li.current a.title {
-    color: white;
+  li a.title {
+    font-weight: 200;
+    display: block;
+    font-size: 2rem;
   }
 
   .content {
     z-index: 2;
+    width: 100%;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .counters {
+    display: flex;
+    align-items: center;
+  }
+
+  .counters .separator {
+    padding: 0 10px;
   }
 
   .thumbnail {
     position: absolute;
-    /* min-width: 100px;
-    max-height: 160px; */
-    /* overflow: hidden; */
     top: 0;
     left: 0;
     width: 100%;
@@ -98,10 +115,9 @@
   }
 
   img {
-    margin-top: -45px;
     width: 100%;
     object-fit: cover;
-    /* margin-top: -44px; */
+    height: 100%;
   }
 
   a.title {
@@ -151,29 +167,25 @@
             {video.title.replace(/\[\w*\]\s?/, '')}
           </a>
 
-          <div>
-            <span>
-              Posted by /u/
+          <div class="meta">
+            <div>
+              By:
               <a href={`${baseUrl}/u/${video.author}`}>{video.author}</a>
-            </span>
+            </div>
 
-            <span>
+            <div class="counters">
               {@html messageIcon}
               &nbsp;
               <a href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}>
                 {video.num_comments}
               </a>
-            </span>
-
-            <span>
-              &nbsp;-&nbsp;
+              <span class="separator">&ndash;</span>
               {@html thumbsUpIcon}
               &nbsp;
               <a href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}>
                 {video.ups}
               </a>
-            </span>
-
+            </div>
           </div>
 
         </div>
@@ -183,7 +195,12 @@
 
   {#if after}
     <div class="after">
-      <button type="button" on:click={() => loadMore(after)}>Load More</button>
+      <button
+        disabled={after === 'loading'}
+        type="button"
+        on:click={() => loadMore(after)}>
+        {after === 'loading' ? 'Loading...' : 'Load More'}
+      </button>
     </div>
   {/if}
 </div>

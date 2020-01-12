@@ -21,14 +21,6 @@
 </script>
 
 <style>
-  .listContainer {
-    max-height: 85vh;
-    overflow: auto;
-    position: sticky;
-    top: 20px;
-    scrollbar-width: none;
-  }
-
   .listContainer::-webkit-scrollbar {
     display: none;
   }
@@ -78,7 +70,6 @@
   }
 
   .meta {
-    display: flex;
     justify-content: space-between;
     align-items: center;
   }
@@ -118,6 +109,8 @@
     width: 100%;
     object-fit: cover;
     height: 100%;
+    text-shadow: none;
+    color: transparent;
   }
 
   a.title {
@@ -137,6 +130,31 @@
     padding: 20px 40px;
     border-radius: 2px;
     font-size: 1.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .meta {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 900px) {
+    li {
+      margin-right: 20px;
+      min-width: 350px;
+    }
+
+    ul {
+      display: flex;
+      overflow-x: auto;
+      align-items: flex-start;
+      overflow: auto;
+      margin-bottom: 10px;
+    }
+
+    .tilte {
+      font-size: 1rem;
+    }
   }
 </style>
 
@@ -163,8 +181,11 @@
           <a
             class="title"
             on:click|preventDefault
+            title={video.title}
             href={`${baseUrl}${video.permalink}`}>
-            {video.title.replace(/\[\w*\]\s?/, '')}
+            {video.title.replace(/\[\w*\]\s?/, '').length > 70 ? `${video.title
+                  .replace(/\[\w*\]\s?/, '')
+                  .slice(0, 70)}...` : video.title.replace(/\[\w*\]\s?/, '')}
           </a>
 
           <div class="meta">

@@ -14,13 +14,17 @@
   }
 
   ul::before {
-    background-color: #262c3c;
     position: absolute;
     content: "";
     width: 2px;
     height: 100%;
     top: 0;
-    left: calc(-8px + calc(var(--depth) * -3px));
+    border-left: 1px dotted #262c3c;
+    left: -20px;
+  }
+
+  ul:hover:before {
+    border-left-style: solid;
   }
 
   [data-depth="0"]::before {
@@ -37,9 +41,7 @@
   }
 </style>
 
-<ul
-  style={`margin-left: ${10 * depth}px; --depth: ${depth}`}
-  data-depth={depth}>
+<ul style={`margin-left: ${20}px;`} data-depth={depth}>
   {#each comments as { data: comment } (comment.id)}
     {#if comment.body}
       <li>

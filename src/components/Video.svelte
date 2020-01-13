@@ -1,6 +1,8 @@
 <script>
   export let video;
   const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|vi|e(?:mbed)?)\/|.*[?&]vi?=)|youtu\.be\/)([^"&?\/ ]{11})/;
+  const getQueryParam = (url, regex) =>
+    regex.test(url) ? `&${url.match(regex)[0]}` : "";
 </script>
 
 <style>
@@ -44,7 +46,7 @@
         height="100%"
         allow="autoplay; encrypted-media"
         allowfullscreen
-        src={`https://youtube.com/embed/${video.url.match(youtubeRegex)[1]}?autoplay=1`} />
+        src={`https://youtube.com/embed/${video.url.match(youtubeRegex)[1]}?autoplay=1&${getQueryParam(video.url, /start=(\d*)/)}${getQueryParam(video.url, /end=(\d*)/)}${getQueryParam(video.url, /[\&\?\;]t=(\d*)/)}`} />
     </div>
   {:else if video.url.includes('vimeo.com')}
     <div class="vimeo">

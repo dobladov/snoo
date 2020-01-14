@@ -3,6 +3,11 @@
   const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|vi|e(?:mbed)?)\/|.*[?&]vi?=)|youtu\.be\/)([^"&?\/ ]{11})/;
   const getQueryParam = (url, regex) =>
     regex.test(url) ? `&${url.match(regex)[0]}` : "";
+
+  const htmlDecode = entites => {
+    const doc = new DOMParser().parseFromString(entites, "text/html");
+    return doc.documentElement.textContent;
+  };
 </script>
 
 <style>
@@ -35,6 +40,11 @@
     height: 100%;
     max-height: 100%;
   }
+
+  .Twitter {
+    display: flex;
+    justify-content: center;
+  }
 </style>
 
 <div>
@@ -58,6 +68,18 @@
         allowfullscreen
         autoplay
         src={`https://player.vimeo.com/video/${video.url.split('/').pop()}`} />
+    </div>
+  {:else if video.url.includes('liveleak.com/')}
+    <div class="vimeo">
+      <iframe
+        title="vimeo"
+        width="100%"
+        height="100%"
+        frameborder="0"
+        allowfullscreen
+        autoplay
+        allow="autoplay; encrypted-media"
+        src={`https://www.liveleak.com/ll_embed?${video.url.split('view?')[1]}`} />
     </div>
   {:else if video.url.includes('imgur.com')}
     {#if video.url.endsWith('.gifv')}
@@ -94,6 +116,23 @@
   {:else if video.selftext_html}
     <div class="text">
       {@html new DOMParser().parseFromString(video.selftext_html, 'text/html').documentElement.textContent}
+    </div>
+  {:else if video.secure_media && video.secure_media.oembed && video.secure_media.oembed.html}
+    <div class={video.secure_media.oembed.provider_name}>
+      {#if video.secure_media.oembed.provider_name === 'Twitter'}
+        <script src="https://platform.twitter.com/widgets.js" charset="utf-8">
+
+        </script>
+      {/if}
+      {@html htmlDecode(video.secure_media.oembed.html)}
+    </div>
+  {:else}
+    <div>
+      This format is not supported, try the
+      <a href={video.url} rel="noopener noreferrer" target="_blank">
+        direct link
+      </a>
+      .
     </div>
   {/if}
 </div>

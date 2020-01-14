@@ -22,7 +22,7 @@ jobs:
         npm test
         npm run build
         touch dist/.nojekyll
-        echo "snoo.odyssey.codes" > public/CNAME
+        echo "snoo.odyssey.codes" > dist/CNAME
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3

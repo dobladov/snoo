@@ -62,6 +62,7 @@
     font-weight: 200;
     display: block;
     font-size: 2rem;
+    text-decoration: none;
   }
 
   .content {

@@ -111,6 +111,17 @@
     height: 100%;
     text-shadow: none;
     color: transparent;
+    transition: opacity 0.4s;
+  }
+
+  img.spoiler,
+  img.adult {
+    opacity: 0;
+  }
+
+  li:hover img.spoiler,
+  li:hover img.adult {
+    opacity: 1;
   }
 
   a.title {
@@ -156,6 +167,11 @@
       font-size: 1rem;
     }
   }
+
+  .warnning {
+    font-weight: bold;
+    margin-right: 10px;
+  }
 </style>
 
 <div class="listContainer">
@@ -170,7 +186,11 @@
         style={`background-color: hsl(${240 + i * 5}, 50%, 11%)`}>
         {#if video.thumbnail}
           <div class="thumbnail">
-            <img src={getImage(video)} alt={video.title} />
+            <img
+              class:spoiler={video.spoiler}
+              class:adult={video.over_18}
+              src={getImage(video)}
+              alt={video.title} />
             <div
               class="overlay"
               style={`background: linear-gradient(90deg, hsla(${240 + i * 5}, 50%, 11%, 1) 30%, hsla(${240 + i * 5}, 50%, 11%, .7) 60%,hsla(${240 + i * 5}, 50%, 11%, 0) 100%)`} />
@@ -191,19 +211,40 @@
           <div class="meta">
             <div>
               By:
-              <a href={`${baseUrl}/u/${video.author}`}>{video.author}</a>
+              <a
+                on:click|stopPropagation
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`${baseUrl}/u/${video.author}`}>
+                {video.author}
+              </a>
             </div>
 
             <div class="counters">
+              {#if video.over_18}
+                <span class="warnning">[NSFW]</span>
+              {/if}
+              {#if video.spoiler}
+                <span class="warnning">[SPOILER]</span>
+              {/if}
+
               {@html messageIcon}
               &nbsp;
-              <a href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}>
+              <a
+                href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}
+                on:click|stopPropagation
+                target="_blank"
+                rel="noopener noreferrer">
                 {video.num_comments}
               </a>
               <span class="separator">&ndash;</span>
               {@html thumbsUpIcon}
               &nbsp;
-              <a href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}>
+              <a
+                on:click|stopPropagation
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}>
                 {video.ups}
               </a>
             </div>

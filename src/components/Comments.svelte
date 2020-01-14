@@ -46,7 +46,10 @@
     {#if comment.body}
       <li>
         <div class="meta">
-          <a target="_blank" href={`${baseUrl}/u/${comment.author}`}>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`${baseUrl}/u/${comment.author}`}>
             {comment.author}
           </a>
           {comment.ups} {comment.ups === 1 ? 'point' : 'points'} &nbsp; - &nbsp;

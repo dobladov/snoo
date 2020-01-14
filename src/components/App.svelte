@@ -81,7 +81,7 @@
     margin-bottom: 20px;
   }
 
-  span {
+  label {
     display: inline-block;
     border-bottom: 3px solid #262c3c;
   }
@@ -161,11 +161,14 @@
       <Video video={current} />
 
       <div class="title">
-        <a href={`${baseUrl}${current.permalink}`}>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href={`${baseUrl}${current.permalink}`}>
           <h2>{current.title}</h2>
         </a>
         &nbsp;
-        <a href={current.url}>
+        <a target="_blank" rel="noopener noreferrer" href={current.url}>
           {@html linkLogo}
         </a>
       </div>
@@ -191,10 +194,11 @@
 
     <div>
       <form on:submit|preventDefault={navigate}>
-        <span>/r/</span>
+        <label for="subRedditInput">/r/</label>
         <input
           bind:this={subRedditInput}
           type="text"
+          id="subRedditInput"
           bind:value={selected}
           list="subReddits"
           placeholder="subreddit" />

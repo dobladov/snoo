@@ -31,6 +31,12 @@
 
   const setCurrent = num => {
     current = videos[num].data;
+
+    if (history.pushState) {
+      history.pushState(null, null, `#${current.id}`);
+    } else {
+      location.hash = `#${current.id}`;
+    }
     getComments(current.permalink);
   };
 
@@ -51,12 +57,27 @@
     subRedditInput.focus();
     const res = await fetch(`${baseUrl}/r/${selected}/.json`);
     const json = await res.json();
+    const hash = window.location.hash.replace("#", "");
     videos = json.data.children;
     after = json.data.after;
     current = videos[0].data;
-    getComments(current.permalink);
 
-    console.log(current);
+    // Find the id on the list and make the video the current one
+    // or query his data if not on the list.
+    const found = hash && videos.find(v => v.data.id === hash);
+    if (found) {
+      current = found.data;
+    }
+
+    if (!found && hash) {
+      const res = await fetch(`${baseUrl}/comments/${hash}/.json`);
+      const json = await res.json();
+      current = json[0].data.children[0].data;
+      videos = [json[0].data.children[0], ...videos];
+      comments = json[1].data.children;
+    } else {
+      getComments(current.permalink);
+    }
   });
 </script>
 

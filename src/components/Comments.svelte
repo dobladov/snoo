@@ -1,5 +1,6 @@
 <script>
   import { DateTime } from "luxon";
+  import marked from "marked";
 
   export let comments;
   export let depth;
@@ -55,7 +56,7 @@
           {comment.ups} {comment.ups === 1 ? 'point' : 'points'} &nbsp; - &nbsp;
           {DateTime.fromSeconds(comment.created).toRelative()}
         </div>
-        {comment.body}
+        {@html marked(comment.body)}
       </li>
 
       {#if comment.replies}

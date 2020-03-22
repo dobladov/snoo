@@ -1,0 +1,1 @@
+![Deploy to GitHub pages](https://github.com/dobladov/snoo/workflows/Deploy%20to%20GitHub%20Pages/badge.svg)

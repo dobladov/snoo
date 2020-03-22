@@ -1,6 +1,7 @@
 <script>
   import { DateTime } from "luxon";
   import marked from "marked";
+  import micIcon from "feather-icons/dist/icons/mic.svg";
 
   export let comments;
   export let depth;
@@ -39,6 +40,12 @@
   .meta {
     color: grey;
     font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .meta span {
+    margin-left: 10px;
   }
 </style>
 
@@ -53,8 +60,15 @@
             href={`${baseUrl}/u/${comment.author}`}>
             {comment.author}
           </a>
-          {comment.ups} {comment.ups === 1 ? 'point' : 'points'} &nbsp; - &nbsp;
-          {DateTime.fromSeconds(comment.created).toRelative()}
+          <span>
+            {#if comment.is_submitter}
+              {@html micIcon}
+            {/if}
+          </span>
+          <span>
+            {comment.ups} {comment.ups === 1 ? 'point' : 'points'} &nbsp; -
+            &nbsp; {DateTime.fromSeconds(comment.created).toRelative()}
+          </span>
         </div>
         {@html marked(comment.body)}
       </li>

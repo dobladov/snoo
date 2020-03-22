@@ -134,16 +134,6 @@
     text-align: right;
   }
 
-  .after button {
-    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset;
-    background-color: hsl(346, 71%, 58%);
-    color: white;
-    border: none;
-    padding: 20px 40px;
-    border-radius: 2px;
-    font-size: 1.5rem;
-  }
-
   @media (min-width: 900px) {
     .meta {
       display: flex;
@@ -261,6 +251,7 @@
       <button
         disabled={after === 'loading'}
         type="button"
+        class="btn"
         on:click={() => loadMore(after)}>
         {after === 'loading' ? 'Loading...' : 'Load More'}
       </button>

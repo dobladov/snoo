@@ -4,6 +4,7 @@
   import List from "./List.svelte";
   import Comments from "./Comments.svelte";
   import Video from "./Video.svelte";
+  import chveronUpIcon from "feather-icons/dist/icons/chevron-up.svg";
 
   import cornerDownRightLogo from "feather-icons/dist/icons/corner-down-right.svg";
   import linkLogo from "feather-icons/dist/icons/link.svg";
@@ -24,6 +25,7 @@
   let current;
   let subRedditInput;
   let after;
+  let asideScroll = 0;
 
   const navigate = e => {
     window.location.href = selected ? `/r/${selected}` : "/";
@@ -151,6 +153,15 @@
     padding: 10px 20px;
   }
 
+  .goUp {
+    display: none;
+    position: fixed;
+    z-index: 3;
+    bottom: 10px;
+    right: 30px;
+    padding: 10px 20px;
+  }
+
   @media (min-width: 900px) {
     main {
       display: flex;
@@ -171,6 +182,10 @@
 
     input[type="text"] {
       font-size: 2rem;
+    }
+
+    .goUp {
+      display: block;
     }
   }
 </style>
@@ -211,7 +226,10 @@
     {/if}
   </section>
 
-  <aside>
+  <aside
+    on:scroll={e => {
+      asideScroll = e.target.scrollTop;
+    }}>
 
     <div>
       <form on:submit|preventDefault={navigate}>
@@ -246,6 +264,17 @@
         {loadMore} />
     {:else}
       <p>...loading</p>
+    {/if}
+
+    {#if asideScroll > 100}
+      <button
+        type="button"
+        class="goUp btn"
+        on:click={() => {
+          subRedditInput.scrollIntoView({ behavior: 'smooth' });
+        }}>
+        {@html chveronUpIcon}
+      </button>
     {/if}
   </aside>
 

@@ -12,7 +12,7 @@
 
   const baseUrl = "https://www.reddit.com";
   let videos;
-  let comments;
+  let comments = [];
   let showComments =
     localStorage.getItem("showComments") === null
       ? window.innerWidth > 900
@@ -209,7 +209,7 @@
         </a>
       </div>
 
-      {#if comments}
+      {#if comments.length}
         <button
           class="toggleComments"
           on:click={() => {

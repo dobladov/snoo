@@ -9,7 +9,6 @@
   import cornerDownRightLogo from "bundle-text:feather-icons/dist/icons/corner-down-right.svg";
   import linkLogo from "bundle-text:feather-icons/dist/icons/link.svg";
   import messageIcon from 'bundle-text:feather-icons/dist/icons/message-square.svg';
-  const serve_path = process.env.SERVE_PATH || ''
 
   const baseUrl = "https://www.reddit.com";
   let videos;
@@ -19,17 +18,17 @@
       ? window.innerWidth > 900
       : JSON.parse(localStorage.getItem("showComments"));
 
-  const [, sub] = (window.location.pathname &&
-    window.location.pathname.match(/\/r\/(..*)/)) || [, null];
-  const hash = window.location.hash;
-  let selected = sub || "videos";
+  const search = new URLSearchParams(window.location.search)
+  let selected = search.get('r') || "videos";
   let current;
   let subRedditInput;
   let after;
   let asideScroll = 0;
 
   const navigate = e => {
-    window.location.href = selected ? `${serve_path}/r/${selected}` : "/";
+    const url = new URL(window.location.href);
+    url.searchParams.set('r', selected)
+    window.location.href = url.href;
   };
 
   const setCurrent = num => {

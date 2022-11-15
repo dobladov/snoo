@@ -17,10 +17,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
-    - run: |
+      env: 
+        SERVE_PATH: '/snoo'
+      run: |
         npm install
         npm test
-        PATH=/snoo npm run build
+        npm run build
         touch dist/.nojekyll
 
     - name: Deploy

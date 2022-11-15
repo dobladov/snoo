@@ -15,18 +15,18 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.20.0",
-    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "parcel-plugin-svelte": "^4.0.5",
-    "svelte": "^3.17.0"
+    "parcel-plugin-svelte": "4.0.9",
+    "svelte": "3.53.1"
   },
   "dependencies": {
-    "feather-icons": "^4.25.0",
+    "feather-icons": "4.29.0",
     "luxon": "^1.21.3",
     "marked": "^0.8.0",
-    "parcel-bundler": "^1.12.4",
+    "parcel-bundler": "1.12.5",
     "parcel-plugin-inlinesvg": "^0.1.1"
   }
 }

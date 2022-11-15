@@ -9,7 +9,7 @@
   import cornerDownRightLogo from "bundle-text:feather-icons/dist/icons/corner-down-right.svg";
   import linkLogo from "bundle-text:feather-icons/dist/icons/link.svg";
   import messageIcon from 'bundle-text:feather-icons/dist/icons/message-square.svg';
-
+  const serve_path = process.env.SERVE_PATH || ''
 
   const baseUrl = "https://www.reddit.com";
   let videos;
@@ -29,7 +29,7 @@
   let asideScroll = 0;
 
   const navigate = e => {
-    window.location.href = selected ? `/r/${selected}` : "/";
+    window.location.href = selected ? `${serve_path}/r/${selected}` : "/";
   };
 
   const setCurrent = num => {

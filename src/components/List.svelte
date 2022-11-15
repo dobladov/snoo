@@ -1,7 +1,7 @@
 <script>
   import { fly } from "svelte/transition";
-  import messageIcon from "feather-icons/dist/icons/message-square.svg";
-  import thumbsUpIcon from "feather-icons/dist/icons/thumbs-up.svg";
+  import messageIcon from "bundle-text:feather-icons/dist/icons/message-square.svg";
+  import thumbsUpIcon from "bundle-text:feather-icons/dist/icons/thumbs-up.svg";
 
   export let videos;
   export let baseUrl;

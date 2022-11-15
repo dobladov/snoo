@@ -4,11 +4,12 @@
   import List from "./List.svelte";
   import Comments from "./Comments.svelte";
   import Video from "./Video.svelte";
-  import chveronUpIcon from "feather-icons/dist/icons/chevron-up.svg";
+  import chveronUpIcon from "bundle-text:feather-icons/dist/icons/chevron-up.svg";
 
-  import cornerDownRightLogo from "feather-icons/dist/icons/corner-down-right.svg";
-  import linkLogo from "feather-icons/dist/icons/link.svg";
-  import messageIcon from "feather-icons/dist/icons/message-square.svg";
+  import cornerDownRightLogo from "bundle-text:feather-icons/dist/icons/corner-down-right.svg";
+  import linkLogo from "bundle-text:feather-icons/dist/icons/link.svg";
+  import messageIcon from 'bundle-text:feather-icons/dist/icons/message-square.svg';
+
 
   const baseUrl = "https://www.reddit.com";
   let videos;

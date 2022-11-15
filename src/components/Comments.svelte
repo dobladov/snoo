@@ -1,7 +1,7 @@
 <script>
   import { DateTime } from "luxon";
   import {parse} from "marked";
-  import micIcon from "feather-icons/dist/icons/mic.svg";
+  import micIcon from "bundle-text:feather-icons/dist/icons/mic.svg";
 
   export let comments;
   export let depth;

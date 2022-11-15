@@ -16,7 +16,7 @@ jobs:
     - name: Build
       uses: actions/setup-node@v1
       with:
-        node-version: '13.x'
+        node-version: '18.x'
     - run: |
         npm install
         npm test

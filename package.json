@@ -4,13 +4,13 @@
   "description": "Snoo",
   "scripts": {
     "start": "parcel --host 0.0.0.0 src/index.html",
-    "build": "parcel build --no-source-maps src/index.html src/404.html",
+    "build": "parcel build --public-url /snoo --no-source-maps src/index.html src/404.html",
     "test": "eslint ."
   },
   "browserslist": [
     "last 1 chrome versions"
   ],
-  "main": "index.js",
+  "default": "src/index.html",
   "author": "dobladov",
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.8.0",
@@ -23,12 +23,12 @@
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-standard": "5.0.0",
     "parcel": "2.8.0",
-    "parcel-transformer-svelte": "1.2.3",
-    "svelte": "3.53.1"
+    "parcel-transformer-svelte": "1.2.3"
   },
   "dependencies": {
     "feather-icons": "4.29.0",
     "luxon": "3.1.0",
-    "marked": "4.2.2"
+    "marked": "4.2.2",
+    "svelte": "3.53.1"
   }
 }

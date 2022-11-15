@@ -1,6 +1,6 @@
 <script>
   import { DateTime } from "luxon";
-  import marked from "marked";
+  import {parse} from "marked";
   import micIcon from "feather-icons/dist/icons/mic.svg";
 
   export let comments;
@@ -70,7 +70,7 @@
             &nbsp; {DateTime.fromSeconds(comment.created).toRelative()}
           </span>
         </div>
-        {@html marked(comment.body)}
+        {@html parse(comment.body)}
       </li>
 
       {#if comment.replies}

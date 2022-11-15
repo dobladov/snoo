@@ -25,10 +25,16 @@
   let after;
   let asideScroll = 0;
 
-  const navigate = e => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('r', selected)
-    window.location.href = url.href;
+  const navigate = () => {
+    if (selected) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('r', selected);
+      url.hash = '';
+      console.log(url.toString(), selected)
+      history.replaceState({}, null, url.href);
+      
+      loadInitialData()
+    }
   };
 
   const setCurrent = num => {
@@ -55,7 +61,7 @@
     after = json.data.after;
   };
 
-  onMount(async () => {
+  const loadInitialData = async () => {
     subRedditInput.focus();
     const res = await fetch(`${baseUrl}/r/${selected}/.json`);
     const json = await res.json();
@@ -80,6 +86,10 @@
     } else {
       getComments(current.permalink);
     }
+  }
+
+  onMount(async () => {
+    loadInitialData();
   });
 </script>
 

@@ -4,6 +4,12 @@ export interface Video {
     title: string;
     url: string;
     id: string;
+    thumbnail: string;
+    over_18: boolean;
+    spoiler: boolean;
+    author: string;
+    ups: number;
+    downs: number;
   };
 }
 

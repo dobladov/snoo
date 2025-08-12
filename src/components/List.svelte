@@ -182,9 +182,6 @@
     {#each videos as { data: video }, i (video.id)}
       <li
         in:fly={{ x: -100, duration: 400, delay: 200 }}
-        on:click={() => {
-          setCurrent(i);
-        }}
         class:current={currentId === video.id}
         style={`background-color: hsl(${240 + i * 5}, 50%, 11%)`}>
         {#if video.thumbnail}
@@ -203,7 +200,9 @@
         <div class="content">
           <a
             class="title"
-            on:click|preventDefault
+            on:click|preventDefault={() => {
+              setCurrent(i);
+            }}
             title={video.title}
             href={`${baseUrl}${video.permalink}`}>
             {video.title.replace(/\[\w*\]\s?/, '').length > 70 ? `${video.title

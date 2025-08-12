@@ -41,7 +41,7 @@
     current = videos[num].data;
 
     if (history.pushState) {
-      history.pushState(null, null, `#${current.id}`);
+      history.pushState(null, "", `#${current.id}`);
     } else {
       location.hash = `#${current.id}`;
     }
@@ -304,4 +304,6 @@
           {/if}
         </div>
       {/if}
+    {/if}
+
 </main>

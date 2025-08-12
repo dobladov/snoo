@@ -110,15 +110,14 @@
 <style>
   main {
     padding: 10px;
-  }
-
-  section {
-    flex: 2;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem 2rem; 
   }
 
   aside {
     flex: 1;
+    grid-area: List;
   }
 
   form {
@@ -155,13 +154,17 @@
   }
 
   .title {
-    margin: 40px 0;
+    grid-area: Title;
+  }
+
+  .comments {
+    grid-area: Comments;
   }
 
   .title h2 {
     font-weight: 100;
-    font-size: 2.5rem;
-    line-height: 3rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
     color: white;
     display: inline;
   }
@@ -186,24 +189,31 @@
     padding: 6px 12px;
   }
 
-  @media (min-width: 900px) {
-    main {
-      display: flex;
-      padding: 20px;
-    }
-
-    section {
-      margin-right: 20px;
-    }
+ @media (min-width: 900px) {
+  .title h2 {
+    font-size: 1.9rem;
+    line-height: 2.5rem;
+  }
 
     aside {
       max-height: 90vh;
       overflow: auto;
       position: sticky;
-      top: calc(10px + 2rem);
+      top: 0;
       scrollbar-width: none;
       padding-top: 3px;
       padding-right: 3px;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr .5fr; 
+      grid-template-rows: auto auto 1fr; 
+      align-items: start;
+      grid-template-areas: 
+        "Video List"
+        "Title List"
+        "Comments List"; 
     }
 
     input[type="text"] {
@@ -217,8 +227,6 @@
 </style>
 
 <main>
-
-  <section>
     {#if current}
       <Video video={current} />
 
@@ -234,23 +242,6 @@
            <LinkIcon/>
         </a>
       </div>
-
-      {#if comments.length}
-        <button
-          class="toggleComments"
-          on:click={() => {
-            showComments = !showComments;
-            localStorage.setItem('showComments', String(showComments));
-          }}>
-          <MessageSquareIcon/>
-          &nbsp; {showComments ? 'Hide comments' : 'Show comments'}
-        </button>
-        {#if showComments}
-          <Comments {baseUrl} {comments} depth={0} />
-        {/if}
-      {/if}
-    {/if}
-  </section>
 
   <aside>
     <div>
@@ -297,4 +288,20 @@
     </button>
   </aside>
 
+      {#if comments.length}
+      <div class="comments">
+          <button
+            class="toggleComments"
+            on:click={() => {
+              showComments = !showComments;
+              localStorage.setItem('showComments', String(showComments));
+            }}>
+            <MessageSquareIcon/>
+            &nbsp; {showComments ? 'Hide comments' : 'Show comments'}
+          </button>
+          {#if showComments}
+            <Comments {baseUrl} {comments} depth={0} />
+          {/if}
+        </div>
+      {/if}
 </main>

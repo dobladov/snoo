@@ -45,7 +45,7 @@
     scroll-snap-type: x mandatory;
   }
 
-  li {
+  li.card {
     scroll-snap-align: center;
     box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset;
     border-radius: 5px;
@@ -160,7 +160,7 @@
   }
 
   @media (max-width: 900px) {
-    li {
+    li.card {
       min-width: 350px;
     }
     
@@ -183,8 +183,12 @@
   <ul>
     {#each videos as { data: video }, i (video.id)}
       <li
+        on:click={() => {
+          setCurrent(i);
+        }}
         in:fly={{ x: -100, duration: 400, delay: 200 }}
         class:current={currentId === video.id}
+        class="card"
         style={`background-color: hsl(${240 + i * 5}, 50%, 11%)`}>
         {#if video.thumbnail}
           <div class="thumbnail">
@@ -202,9 +206,7 @@
         <div class="content">
           <a
             class="title"
-            on:click|preventDefault={() => {
-              setCurrent(i);
-            }}
+            on:click|preventDefault={() => {}}
             title={video.title}
             href={`${baseUrl}${video.permalink}`}>
             {video.title.replace(/\[\w*\]\s?/, '').length > 70 ? `${video.title
@@ -257,17 +259,18 @@
         </div>
       </li>
     {/each}
+    <li>
+        {#if after}
+        <div class="after">
+          <button
+            disabled={after === 'loading'}
+            type="button"
+            class="btn"
+            on:click={() => loadMore(after)}>
+            {after === 'loading' ? 'Loading...' : 'Load More'}
+          </button>
+        </div>
+      {/if}
+      </li>
   </ul>
-
-  {#if after}
-    <div class="after">
-      <button
-        disabled={after === 'loading'}
-        type="button"
-        class="btn"
-        on:click={() => loadMore(after)}>
-        {after === 'loading' ? 'Loading...' : 'Load More'}
-      </button>
-    </div>
-  {/if}
 </div>

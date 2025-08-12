@@ -19,6 +19,10 @@
 </script>
 
 <style>
+  .video {
+    grid-area: Video;
+  }
+  
   .youtube {
     padding-top: 56.25%;
     position: relative;
@@ -55,7 +59,7 @@
   }
 </style>
 
-<div>
+<div class="video">
   {#if youtubeRegex.test(video.url)}
     <div class="youtube">
       <iframe
@@ -64,7 +68,8 @@
         height="100%"
         allow="autoplay; encrypted-media"
         allowfullscreen
-        src={`https://youtube.com/embed/${video.url.match(youtubeRegex)[1]}?autoplay=1&${getQueryParam(video.url, /start=(\d*)/)}${getQueryParam(video.url, /end=(\d*)/)}${getQueryParam(video.url, /[\&\?\;]t=(\d*)/)}`} />
+        src={`https://youtube.com/embed/${video.url.match(youtubeRegex)[1]}?autoplay=1&${getQueryParam(video.url, /start=(\d*)/)}${getQueryParam(video.url, /end=(\d*)/)}${getQueryParam(video.url, /[\&\?\;]t=(\d*)/)}`}>
+      </iframe>
     </div>
   {:else if video.url.includes('vimeo.com')}
     <div class="vimeo">
@@ -74,7 +79,8 @@
         height="100%"
         frameborder="0"
         allowfullscreen
-        src={`https://player.vimeo.com/video/${video.url.split('/').pop()}`} />
+        src={`https://player.vimeo.com/video/${video.url.split('/').pop()}`}>
+      </iframe>
     </div>
   {:else if video.url.includes('liveleak.com/')}
     <div class="vimeo">
@@ -85,10 +91,12 @@
         frameborder="0"
         allowfullscreen
         allow="autoplay; encrypted-media"
-        src={`https://www.liveleak.com/ll_embed?${video.url.split('view?')[1]}`} />
+        src={`https://www.liveleak.com/ll_embed?${video.url.split('view?')[1]}`} >
+      </iframe>
     </div>
   {:else if video.url.includes('imgur.com')}
     {#if video.url.endsWith('.gifv')}
+      <!-- svelte-ignore a11y_media_has_caption -->
       <video class="image" loop autoplay>
         <source type="video/mp4" src={video.url.replace('gifv', 'mp4')} />
       </video>
@@ -102,6 +110,7 @@
     <img class="image" src={video.url} alt={video.url} />
   {:else if video.url.includes('gfycat.com/')}
     <div class="image">
+      <!-- svelte-ignore a11y_media_has_caption -->
       <video
         poster={`https://thumbs.gfycat.com/${video.url
           .split('/')

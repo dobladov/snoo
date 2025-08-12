@@ -36,7 +36,10 @@
   }
 
   ul {
+    display: flex;
+    flex-direction: column;
     list-style-type: none;
+    gap: 1rem;
     margin: 0;
     padding: 0;
     scroll-snap-type: x mandatory;
@@ -46,7 +49,6 @@
     scroll-snap-align: center;
     box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset;
     border-radius: 5px;
-    margin-bottom: 20px;
     padding: 20px;
     cursor: pointer;
     display: flex;
@@ -70,7 +72,7 @@
     font-weight: bold;
   }
 
-  li a.title {
+  .title {
     font-weight: 200;
     display: block;
     font-size: 2rem;
@@ -80,6 +82,9 @@
   .content {
     z-index: 2;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .meta {
@@ -137,12 +142,14 @@
     opacity: 1;
   }
 
-  a.title {
+  .title {
     color: white;
     font-size: 1.5rem;
+    text-overflow: ellipsis;
   }
 
   .after {
+    padding-top: .5rem;
     text-align: right;
   }
 
@@ -154,20 +161,15 @@
 
   @media (max-width: 900px) {
     li {
-      margin-right: 20px;
       min-width: 350px;
     }
     
     ul {
-      display: flex;
+      flex-direction: row;
       overflow-x: auto;
-      align-items: flex-start;
+      align-items: stretch;
       overflow: auto;
       margin-bottom: 10px;
-    }
-
-    .tilte {
-      font-size: 1rem;
     }
   }
 

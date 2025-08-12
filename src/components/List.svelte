@@ -39,9 +39,11 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    scroll-snap-type: x mandatory;
   }
 
   li {
+    scroll-snap-align: center;
     box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset;
     border-radius: 5px;
     margin-bottom: 20px;

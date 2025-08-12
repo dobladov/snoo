@@ -1,7 +1,7 @@
 <script>
   import { DateTime } from "luxon";
   import {parse} from "marked";
-  import micIcon from "bundle-text:feather-icons/dist/icons/mic.svg";
+  import {MicIcon} from 'svelte-feather-icons'
 
   export let comments;
   export let depth;
@@ -62,7 +62,7 @@
           </a>
           <span>
             {#if comment.is_submitter}
-              {@html micIcon}
+              <MicIcon/>
             {/if}
           </span>
           <span>

@@ -1,7 +1,7 @@
 <script>
   import { fly } from "svelte/transition";
-  import messageIcon from "bundle-text:feather-icons/dist/icons/message-square.svg";
-  import thumbsUpIcon from "bundle-text:feather-icons/dist/icons/thumbs-up.svg";
+  import {MessageSquareIcon} from 'svelte-feather-icons'
+  import {ThumbsUpIcon} from 'svelte-feather-icons'
 
   export let videos;
   export let baseUrl;
@@ -219,7 +219,7 @@
                 <span class="warnning">[SPOILER]</span>
               {/if}
 
-              {@html messageIcon}
+              <MessageSquareIcon/>
               &nbsp;
               <a
                 href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}
@@ -229,7 +229,7 @@
                 {video.num_comments}
               </a>
               <span class="separator">&ndash;</span>
-              {@html thumbsUpIcon}
+              <ThumbsUpIcon/>
               &nbsp;
               <a
                 on:click|stopPropagation

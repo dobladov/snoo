@@ -1,24 +1,21 @@
 <script>
   import { onMount } from "svelte";
   import subReddits from "../subReddits";
-  import List from "./List.svelte";
-  import Comments from "./Comments.svelte";
-  import Video from "./Video.svelte";
-  import chveronUpIcon from "bundle-text:feather-icons/dist/icons/chevron-up.svg";
-
-  import cornerDownRightLogo from "bundle-text:feather-icons/dist/icons/corner-down-right.svg";
-  import linkLogo from "bundle-text:feather-icons/dist/icons/link.svg";
-  import messageIcon from 'bundle-text:feather-icons/dist/icons/message-square.svg';
+  import List from "../components/List.svelte";
+  import Comments from "../components/Comments.svelte";
+  import Video from "../components/Video.svelte";
+  import { ChevronUpIcon, CornerDownRightIcon, LinkIcon, MessageSquareIcon} from "svelte-feather-icons";
 
   const baseUrl = "https://www.reddit.com";
   let videos;
   let comments = [];
-  let showComments =
-    localStorage.getItem("showComments") === null
-      ? window.innerWidth > 900
-      : JSON.parse(localStorage.getItem("showComments"));
+  let showComments = true
+    // localStorage.getItem("showComments") === null
+    //   ? window.innerWidth > 900
+    //   : JSON.parse(localStorage.getItem("showComments"));
 
-  const search = new URLSearchParams(window.location.search)
+  // const search = new URLSearchParams(window.location.search)
+  const search = new URLSearchParams();
   let selected = search.get('r') || "videos";
   let current;
   let subRedditInput;
@@ -215,7 +212,7 @@
         </a>
         &nbsp;
         <a target="_blank" rel="noopener noreferrer" href={current.url}>
-          {@html linkLogo}
+           <LinkIcon/>
         </a>
       </div>
 
@@ -226,7 +223,7 @@
             showComments = !showComments;
             localStorage.setItem('showComments', showComments);
           }}>
-          {@html messageIcon}
+          <MessageSquareIcon/>
           &nbsp; {showComments ? 'Hide comments' : 'Show comments'}
         </button>
         {#if showComments}
@@ -259,7 +256,7 @@
           {/each}
         </datalist>
         <button type="submit">
-          {@html cornerDownRightLogo}
+          <CornerDownRightIcon/>
         </button>
       </form>
     </div>
@@ -283,7 +280,7 @@
         on:click={() => {
           subRedditInput.scrollIntoView({ behavior: 'smooth' });
         }}>
-        {@html chveronUpIcon}
+        <ChevronUpIcon />
       </button>
     {/if}
   </aside>

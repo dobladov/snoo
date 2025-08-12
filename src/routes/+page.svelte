@@ -15,9 +15,7 @@
   /** @type {Comment[]} */
   let comments = [];
   let showComments = false;
-  // const search = new URLSearchParams(window.location.search)
-  const search = new URLSearchParams();
-  let selected = search.get('r') || "videos";
+  let selected = "videos"
   /** @type {VideoType["data"]} */
   let current;
   /** @type {string} */
@@ -97,6 +95,9 @@
   }
 
   onMount(async () => {
+    const search = new URLSearchParams(window.location.search);
+    selected = search.get('r') || "videos";
+
     const storedShowComments = JSON.parse(localStorage.getItem("showComments") || 'null');
     showComments = storedShowComments !== null
       ? storedShowComments

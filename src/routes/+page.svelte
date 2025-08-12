@@ -28,7 +28,7 @@
       url.searchParams.set('r', selected);
       url.hash = '';
       console.log(url.toString(), selected)
-      history.replaceState({}, null, url.href);
+      history.replaceState({}, '', url.href);
       
       loadInitialData()
     }

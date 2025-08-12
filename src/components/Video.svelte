@@ -1,9 +1,17 @@
 <script>
   export let video;
   const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|vi|e(?:mbed)?)\/|.*[?&]vi?=)|youtu\.be\/)([^"&?\/ ]{11})/;
+  
+  /**
+   * @param {string} url
+   * @param {RegExp} regex
+   */
   const getQueryParam = (url, regex) =>
-    regex.test(url) ? `&${url.match(regex)[0]}` : "";
+    regex.test(url) ? `&${url.match(regex)?.[0]}` : "";
 
+  /**
+   * @param {string} entites
+   */
   const htmlDecode = entites => {
     const doc = new DOMParser().parseFromString(entites, "text/html");
     return doc.documentElement.textContent;
@@ -66,7 +74,6 @@
         height="100%"
         frameborder="0"
         allowfullscreen
-        autoplay
         src={`https://player.vimeo.com/video/${video.url.split('/').pop()}`} />
     </div>
   {:else if video.url.includes('liveleak.com/')}
@@ -77,7 +84,6 @@
         height="100%"
         frameborder="0"
         allowfullscreen
-        autoplay
         allow="autoplay; encrypted-media"
         src={`https://www.liveleak.com/ll_embed?${video.url.split('view?')[1]}`} />
     </div>

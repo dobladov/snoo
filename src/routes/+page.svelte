@@ -1,4 +1,7 @@
 <script>
+  /**
+   * @import {Video as VideoType, Comment} from './interfaces'
+  */
   import { onMount } from "svelte";
   import subReddits from "../subReddits";
   import List from "../components/List.svelte";
@@ -7,18 +10,17 @@
   import { ChevronUpIcon, CornerDownRightIcon, LinkIcon, MessageSquareIcon} from "svelte-feather-icons";
 
   const baseUrl = "https://www.reddit.com";
+  /** @type {VideoType[]} */
   let videos;
+  /** @type {Comment[]} */
   let comments = [];
-  let showComments = true
-    // localStorage.getItem("showComments") === null
-    //   ? window.innerWidth > 900
-    //   : JSON.parse(localStorage.getItem("showComments"));
-
+  let showComments = false;
   // const search = new URLSearchParams(window.location.search)
   const search = new URLSearchParams();
   let selected = search.get('r') || "videos";
+  /** @type {VideoType["data"]} */
   let current;
-  let subRedditInput;
+  /** @type {string} */
   let after;
   let asideScroll = 0;
 
@@ -34,7 +36,10 @@
     }
   };
 
-  const setCurrent = num => {
+  /**
+   * @param {number} num
+   */
+  const setCurrent = (num) => {
     current = videos[num].data;
 
     if (history.pushState) {
@@ -45,11 +50,17 @@
     getComments(current.permalink);
   };
 
-  const getComments = async url => {
+  /**
+   * @param {string} url
+   */
+  const getComments = async (url) => {
     const res = await fetch(`${baseUrl}${url}.json`);
     comments = (await res.json())[1].data.children;
   };
 
+  /**
+   * @param {string} id
+   */
   const loadMore = async id => {
     after = "loading";
     const res = await fetch(`${baseUrl}/r/${selected}/.json?after=${id}`);
@@ -59,7 +70,7 @@
   };
 
   const loadInitialData = async () => {
-    subRedditInput.focus();
+    document.getElementById('subRedditInput')?.focus();
     const res = await fetch(`${baseUrl}/r/${selected}/.json`);
     const json = await res.json();
     const hash = window.location.hash.replace("#", "");
@@ -86,6 +97,11 @@
   }
 
   onMount(async () => {
+    const storedShowComments = JSON.parse(localStorage.getItem("showComments") || 'null');
+    showComments = storedShowComments !== null
+      ? storedShowComments
+      : window.innerWidth > 900
+
     loadInitialData();
   });
 </script>
@@ -221,7 +237,7 @@
           class="toggleComments"
           on:click={() => {
             showComments = !showComments;
-            localStorage.setItem('showComments', showComments);
+            localStorage.setItem('showComments', String(showComments));
           }}>
           <MessageSquareIcon/>
           &nbsp; {showComments ? 'Hide comments' : 'Show comments'}
@@ -233,16 +249,11 @@
     {/if}
   </section>
 
-  <aside
-    on:scroll={e => {
-      asideScroll = e.target.scrollTop;
-    }}>
-
+  <aside>
     <div>
       <form on:submit|preventDefault={navigate}>
         <label for="subRedditInput">/r/</label>
         <input
-          bind:this={subRedditInput}
           type="text"
           id="subRedditInput"
           bind:value={selected}
@@ -273,16 +284,14 @@
       <p>...loading</p>
     {/if}
 
-    {#if asideScroll > 100}
-      <button
-        type="button"
-        class="goUp btn"
-        on:click={() => {
-          subRedditInput.scrollIntoView({ behavior: 'smooth' });
-        }}>
-        <ChevronUpIcon />
-      </button>
-    {/if}
+    <button
+      type="button"
+      class="goUp btn"
+      on:click={() => {
+        document.getElementById('subRedditInput')?.scrollIntoView({ behavior: 'smooth' });
+      }}>
+      <ChevronUpIcon />
+    </button>
   </aside>
 
 </main>

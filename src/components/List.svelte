@@ -1,13 +1,23 @@
 <script>
+  /**
+   * @import {Video} from '../routes/interfaces' 
+  */
+
   import { fly } from "svelte/transition";
   import {MessageSquareIcon} from 'svelte-feather-icons'
   import {ThumbsUpIcon} from 'svelte-feather-icons'
 
+  /** @type {Video[]} */
   export let videos;
+  /** @type {string} */
   export let baseUrl;
+  /** @type {(i: number) => void} */
   export let setCurrent;
+  /** @type {string} */
   export let currentId;
+  /** @type {string} */
   export let after;
+  /** @type {(after: string) => void} */
   export let loadMore;
 
   const getImage = video => {
@@ -145,7 +155,7 @@
       margin-right: 20px;
       min-width: 350px;
     }
-
+    
     ul {
       display: flex;
       overflow-x: auto;

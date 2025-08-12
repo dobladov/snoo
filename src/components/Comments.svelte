@@ -3,8 +3,15 @@
   import {parse} from "marked";
   import {MicIcon} from 'svelte-feather-icons'
 
+  /**
+   * @import {Comment} from '../routes/interfaces'
+   */
+
+  /** @type {Comment[]} */
   export let comments;
+  /** @type {number} */
   export let depth;
+  /** @type {string} */
   export let baseUrl;
 </script>
 

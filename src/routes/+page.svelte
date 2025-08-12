@@ -183,7 +183,7 @@
     z-index: 3;
     bottom: 10px;
     right: 30px;
-    padding: 10px 20px;
+    padding: 6px 12px;
   }
 
   @media (min-width: 900px) {
@@ -200,8 +200,10 @@
       max-height: 90vh;
       overflow: auto;
       position: sticky;
-      top: calc(10px + 1.1rem);
+      top: calc(10px + 2rem);
       scrollbar-width: none;
+      padding-top: 3px;
+      padding-right: 3px;
     }
 
     input[type="text"] {

@@ -151,6 +151,10 @@
   .after {
     padding-top: .5rem;
     text-align: right;
+    height: 100%;
+    min-width: 10rem;
+    display: flex;
+    justify-content: flex-end;
   }
 
   @media (min-width: 900px) {

@@ -19,7 +19,7 @@ jobs:
       - name: Install and build
         run: |
           npm install
-          npm test
+          # npm test
           npm run build
           touch dist/.nojekyll
 

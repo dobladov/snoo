@@ -10,24 +10,24 @@
   import { ChevronUpIcon, CornerDownRightIcon, LinkIcon, MessageSquareIcon} from "svelte-feather-icons";
 
   const baseUrl = "https://www.reddit.com";
+
   /** @type {VideoType[]} */
-  let videos;
+  let videos = $state([]);
   /** @type {Comment[]} */
-  let comments = [];
-  let showComments = false;
-  let selected = "videos"
-  /** @type {VideoType["data"]} */
-  let current;
+  let comments = $state([]);
+  let showComments = $state(false);
+  let selected = $state("videos")
+  /** @type {VideoType["data"] | null} */
+  let current = $state(null);
   /** @type {string} */
-  let after;
-  let asideScroll = 0;
+  let after = $state("");
+  let asideScroll = $state(0);
 
   const navigate = () => {
     if (selected) {
       const url = new URL(window.location.href);
       url.searchParams.set('r', selected);
       url.hash = '';
-      console.log(url.toString(), selected)
       history.replaceState({}, '', url.href);
       
       loadInitialData()
@@ -109,7 +109,7 @@
 
 <style>
   main {
-    padding: 10px;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1rem 2rem; 
@@ -184,9 +184,9 @@
     display: none;
     position: fixed;
     z-index: 3;
-    bottom: 10px;
-    right: 30px;
-    padding: 6px 12px;
+    bottom: 1rem;
+    right: 1rem;
+    padding: .5rem 1rem;
   }
 
  @media (min-width: 900px) {
@@ -243,9 +243,13 @@
         </a>
       </div>
 
-  <aside>
+  <aside
+      onscroll={(e) => {
+        asideScroll = e?.target?.scrollTop;
+      }} 
+  >
     <div>
-      <form on:submit|preventDefault={navigate}>
+      <form onsubmit={navigate}>
         <label for="subRedditInput">/r/</label>
         <input
           type="text"
@@ -278,21 +282,23 @@
       <p>...loading</p>
     {/if}
 
+    {#if asideScroll > 200}
     <button
       type="button"
       class="goUp btn"
-      on:click={() => {
+      onclick={() => {
         document.getElementById('subRedditInput')?.scrollIntoView({ behavior: 'smooth' });
       }}>
       <ChevronUpIcon />
     </button>
+    {/if}
   </aside>
 
       {#if comments.length}
       <div class="comments">
           <button
             class="toggleComments"
-            on:click={() => {
+            onclick={() => {
               showComments = !showComments;
               localStorage.setItem('showComments', String(showComments));
             }}>

@@ -7,18 +7,18 @@
   import {MessageSquareIcon} from 'svelte-feather-icons'
   import {ThumbsUpIcon} from 'svelte-feather-icons'
 
-  /** @type {Video[]} */
-  export let videos;
-  /** @type {string} */
-  export let baseUrl;
-  /** @type {(i: number) => void} */
-  export let setCurrent;
-  /** @type {string} */
-  export let currentId;
-  /** @type {string} */
-  export let after;
-  /** @type {(after: string) => void} */
-  export let loadMore;
+  /** @type {Props} */
+  const {videos, baseUrl, setCurrent, currentId, after, loadMore} = $props();
+  
+  /**
+   * @typedef {object} Props
+   * @prop {Video[]} videos
+   * @prop {string} baseUrl
+   * @prop {(i: number) => void} setCurrent
+   * @prop {string} currentId
+   * @prop {string} after
+   * @prop {(after: string) => void} loadMore
+   */
 
   const getImage = video => {
     return (
@@ -185,7 +185,7 @@
       <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <li
-        on:click={() => {
+        onclick={() => {
           setCurrent(i);
         }}
         in:fly={{ x: -100, duration: 400, delay: 200 }}
@@ -208,7 +208,7 @@
         <div class="content">
           <a
             class="title"
-            on:click|preventDefault={() => {}}
+            onclick={(e) => {e.preventDefault()}}
             title={video.title}
             href={`${baseUrl}${video.permalink}`}>
             {video.title.replace(/\[\w*\]\s?/, '').length > 70 ? `${video.title
@@ -220,7 +220,7 @@
             <div>
               By:
               <a
-                on:click|stopPropagation
+                onclick={(e) => e.stopPropagation()}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`${baseUrl}/u/${video.author}`}>
@@ -240,7 +240,7 @@
               &nbsp;
               <a
                 href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}
-                on:click|stopPropagation
+                onclick={(e) => e.stopPropagation()}
                 target="_blank"
                 rel="noopener noreferrer">
                 {video.num_comments}
@@ -249,7 +249,7 @@
               <ThumbsUpIcon/>
               &nbsp;
               <a
-                on:click|stopPropagation
+                onclick={(e) => e.stopPropagation()}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}>
@@ -268,7 +268,7 @@
             disabled={after === 'loading'}
             type="button"
             class="btn"
-            on:click={() => loadMore(after)}>
+            onclick={() => loadMore(after)}>
             {after === 'loading' ? 'Loading...' : 'Load More'}
           </button>
         </div>

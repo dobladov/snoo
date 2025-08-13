@@ -25,7 +25,7 @@ export interface Comment {
     is_submitter: boolean;
     replies: {
       data: {
-        children: Comment;
+        children: Comment[];
       };
     };
   };

@@ -22,6 +22,7 @@
   /** @type {string} */
   let after = $state("");
   let asideScroll = $state(0);
+  let mainScroll = $state(0);
 
   const navigate = () => {
     if (selected) {
@@ -94,7 +95,7 @@
     }
   }
 
-  onMount(async () => {
+  onMount(() => {
     const search = new URLSearchParams(window.location.search);
     selected = search.get('r') || "videos";
 
@@ -103,7 +104,16 @@
       ? storedShowComments
       : window.innerWidth > 900
 
+    const onWindowScroll = () => {
+      mainScroll = window.scrollY;
+    };
+    window.addEventListener('scroll', onWindowScroll);
+
     loadInitialData();
+
+    return () => {
+      window.removeEventListener('scroll', onWindowScroll);
+    };
   });
 </script>
 
@@ -282,12 +292,13 @@
       <p>...loading</p>
     {/if}
 
-    {#if asideScroll > 200}
+    {#if asideScroll > 200 || mainScroll > 200}
     <button
       type="button"
       class="goUp btn"
       onclick={() => {
         document.getElementById('subRedditInput')?.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }}>
       <ChevronUpIcon />
     </button>

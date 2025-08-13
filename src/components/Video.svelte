@@ -1,16 +1,28 @@
 <script>
   export let video;
   const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|vi|e(?:mbed)?)\/|.*[?&]vi?=)|youtu\.be\/)([^"&?\/ ]{11})/;
+  
+  /**
+   * @param {string} url
+   * @param {RegExp} regex
+   */
   const getQueryParam = (url, regex) =>
-    regex.test(url) ? `&${url.match(regex)[0]}` : "";
+    regex.test(url) ? `&${url.match(regex)?.[0]}` : "";
 
-  const htmlDecode = entites => {
-    const doc = new DOMParser().parseFromString(entites, "text/html");
+  /**
+   * @param {string} entities
+   */
+  const htmlDecode = entities => {
+    const doc = new DOMParser().parseFromString(entities, "text/html");
     return doc.documentElement.textContent;
   };
 </script>
 
 <style>
+  .video {
+    grid-area: Video;
+  }
+  
   .youtube {
     padding-top: 56.25%;
     position: relative;
@@ -47,7 +59,7 @@
   }
 </style>
 
-<div>
+<div class="video">
   {#if youtubeRegex.test(video.url)}
     <div class="youtube">
       <iframe
@@ -56,7 +68,8 @@
         height="100%"
         allow="autoplay; encrypted-media"
         allowfullscreen
-        src={`https://youtube.com/embed/${video.url.match(youtubeRegex)[1]}?autoplay=1&${getQueryParam(video.url, /start=(\d*)/)}${getQueryParam(video.url, /end=(\d*)/)}${getQueryParam(video.url, /[\&\?\;]t=(\d*)/)}`} />
+        src={`https://youtube.com/embed/${video.url.match(youtubeRegex)[1]}?autoplay=1&${getQueryParam(video.url, /start=(\d*)/)}${getQueryParam(video.url, /end=(\d*)/)}${getQueryParam(video.url, /[\&\?\;]t=(\d*)/)}`}>
+      </iframe>
     </div>
   {:else if video.url.includes('vimeo.com')}
     <div class="vimeo">
@@ -66,8 +79,8 @@
         height="100%"
         frameborder="0"
         allowfullscreen
-        autoplay
-        src={`https://player.vimeo.com/video/${video.url.split('/').pop()}`} />
+        src={`https://player.vimeo.com/video/${video.url.split('/').pop()}`}>
+      </iframe>
     </div>
   {:else if video.url.includes('liveleak.com/')}
     <div class="vimeo">
@@ -77,12 +90,13 @@
         height="100%"
         frameborder="0"
         allowfullscreen
-        autoplay
         allow="autoplay; encrypted-media"
-        src={`https://www.liveleak.com/ll_embed?${video.url.split('view?')[1]}`} />
+        src={`https://www.liveleak.com/ll_embed?${video.url.split('view?')[1]}`} >
+      </iframe>
     </div>
   {:else if video.url.includes('imgur.com')}
     {#if video.url.endsWith('.gifv')}
+      <!-- svelte-ignore a11y_media_has_caption -->
       <video class="image" loop autoplay>
         <source type="video/mp4" src={video.url.replace('gifv', 'mp4')} />
       </video>
@@ -96,6 +110,7 @@
     <img class="image" src={video.url} alt={video.url} />
   {:else if video.url.includes('gfycat.com/')}
     <div class="image">
+      <!-- svelte-ignore a11y_media_has_caption -->
       <video
         poster={`https://thumbs.gfycat.com/${video.url
           .split('/')

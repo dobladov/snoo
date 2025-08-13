@@ -1,58 +1,65 @@
 <script>
+  /**
+   * @import {Video as VideoType, Comment} from './interfaces'
+  */
   import { onMount } from "svelte";
   import subReddits from "../subReddits";
-  import List from "./List.svelte";
-  import Comments from "./Comments.svelte";
-  import Video from "./Video.svelte";
-  import chveronUpIcon from "bundle-text:feather-icons/dist/icons/chevron-up.svg";
-
-  import cornerDownRightLogo from "bundle-text:feather-icons/dist/icons/corner-down-right.svg";
-  import linkLogo from "bundle-text:feather-icons/dist/icons/link.svg";
-  import messageIcon from 'bundle-text:feather-icons/dist/icons/message-square.svg';
+  import List from "../components/List.svelte";
+  import Comments from "../components/Comments.svelte";
+  import Video from "../components/Video.svelte";
+  import { ChevronUpIcon, CornerDownRightIcon, LinkIcon, MessageSquareIcon} from "svelte-feather-icons";
 
   const baseUrl = "https://www.reddit.com";
-  let videos;
-  let comments = [];
-  let showComments =
-    localStorage.getItem("showComments") === null
-      ? window.innerWidth > 900
-      : JSON.parse(localStorage.getItem("showComments"));
 
-  const search = new URLSearchParams(window.location.search)
-  let selected = search.get('r') || "videos";
-  let current;
-  let subRedditInput;
-  let after;
-  let asideScroll = 0;
+  /** @type {VideoType[]} */
+  let videos = $state([]);
+  /** @type {Comment[]} */
+  let comments = $state([]);
+  let showComments = $state(false);
+  let selected = $state("videos")
+  /** @type {VideoType["data"] | null} */
+  let current = $state(null);
+  /** @type {string} */
+  let after = $state("");
+  let asideScroll = $state(0);
+  let mainScroll = $state(0);
 
   const navigate = () => {
     if (selected) {
       const url = new URL(window.location.href);
       url.searchParams.set('r', selected);
       url.hash = '';
-      console.log(url.toString(), selected)
-      history.replaceState({}, null, url.href);
+      history.replaceState({}, '', url.href);
       
       loadInitialData()
     }
   };
 
-  const setCurrent = num => {
+  /**
+   * @param {number} num
+   */
+  const setCurrent = (num) => {
     current = videos[num].data;
 
     if (history.pushState) {
-      history.pushState(null, null, `#${current.id}`);
+      history.pushState(null, "", `#${current.id}`);
     } else {
       location.hash = `#${current.id}`;
     }
     getComments(current.permalink);
   };
 
-  const getComments = async url => {
+  /**
+   * @param {string} url
+   */
+  const getComments = async (url) => {
     const res = await fetch(`${baseUrl}${url}.json`);
     comments = (await res.json())[1].data.children;
   };
 
+  /**
+   * @param {string} id
+   */
   const loadMore = async id => {
     after = "loading";
     const res = await fetch(`${baseUrl}/r/${selected}/.json?after=${id}`);
@@ -62,7 +69,7 @@
   };
 
   const loadInitialData = async () => {
-    subRedditInput.focus();
+    document.getElementById('subRedditInput')?.focus();
     const res = await fetch(`${baseUrl}/r/${selected}/.json`);
     const json = await res.json();
     const hash = window.location.hash.replace("#", "");
@@ -88,23 +95,39 @@
     }
   }
 
-  onMount(async () => {
+  onMount(() => {
+    const search = new URLSearchParams(window.location.search);
+    selected = search.get('r') || "videos";
+
+    const storedShowComments = JSON.parse(localStorage.getItem("showComments") || 'null');
+    showComments = storedShowComments !== null
+      ? storedShowComments
+      : window.innerWidth > 900
+
+    const onWindowScroll = () => {
+      mainScroll = window.scrollY;
+    };
+    window.addEventListener('scroll', onWindowScroll);
+
     loadInitialData();
+
+    return () => {
+      window.removeEventListener('scroll', onWindowScroll);
+    };
   });
 </script>
 
 <style>
   main {
-    padding: 10px;
-  }
-
-  section {
-    flex: 2;
-    overflow: hidden;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem 2rem; 
   }
 
   aside {
     flex: 1;
+    grid-area: List;
   }
 
   form {
@@ -141,13 +164,17 @@
   }
 
   .title {
-    margin: 40px 0;
+    grid-area: Title;
+  }
+
+  .comments {
+    grid-area: Comments;
   }
 
   .title h2 {
     font-weight: 100;
-    font-size: 2.5rem;
-    line-height: 3rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
     color: white;
     display: inline;
   }
@@ -167,27 +194,36 @@
     display: none;
     position: fixed;
     z-index: 3;
-    bottom: 10px;
-    right: 30px;
-    padding: 10px 20px;
+    bottom: 1rem;
+    right: 1rem;
+    padding: .5rem 1rem;
   }
 
-  @media (min-width: 900px) {
-    main {
-      display: flex;
-      padding: 20px;
-    }
-
-    section {
-      margin-right: 20px;
-    }
+ @media (min-width: 900px) {
+  .title h2 {
+    font-size: 1.9rem;
+    line-height: 2.5rem;
+  }
 
     aside {
       max-height: 90vh;
       overflow: auto;
       position: sticky;
-      top: calc(10px + 1.1rem);
+      top: 0;
       scrollbar-width: none;
+      padding-top: 3px;
+      padding-right: 3px;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr .5fr; 
+      grid-template-rows: auto auto 1fr; 
+      align-items: start;
+      grid-template-areas: 
+        "Video List"
+        "Title List"
+        "Comments List"; 
     }
 
     input[type="text"] {
@@ -201,8 +237,6 @@
 </style>
 
 <main>
-
-  <section>
     {#if current}
       <Video video={current} />
 
@@ -215,37 +249,19 @@
         </a>
         &nbsp;
         <a target="_blank" rel="noopener noreferrer" href={current.url}>
-          {@html linkLogo}
+           <LinkIcon/>
         </a>
       </div>
 
-      {#if comments.length}
-        <button
-          class="toggleComments"
-          on:click={() => {
-            showComments = !showComments;
-            localStorage.setItem('showComments', showComments);
-          }}>
-          {@html messageIcon}
-          &nbsp; {showComments ? 'Hide comments' : 'Show comments'}
-        </button>
-        {#if showComments}
-          <Comments {baseUrl} {comments} depth={0} />
-        {/if}
-      {/if}
-    {/if}
-  </section>
-
   <aside
-    on:scroll={e => {
-      asideScroll = e.target.scrollTop;
-    }}>
-
+      onscroll={(e) => {
+        asideScroll = e?.target?.scrollTop;
+      }} 
+  >
     <div>
-      <form on:submit|preventDefault={navigate}>
+      <form onsubmit={navigate}>
         <label for="subRedditInput">/r/</label>
         <input
-          bind:this={subRedditInput}
           type="text"
           id="subRedditInput"
           bind:value={selected}
@@ -259,7 +275,7 @@
           {/each}
         </datalist>
         <button type="submit">
-          {@html cornerDownRightLogo}
+          <CornerDownRightIcon/>
         </button>
       </form>
     </div>
@@ -276,16 +292,35 @@
       <p>...loading</p>
     {/if}
 
-    {#if asideScroll > 100}
-      <button
-        type="button"
-        class="goUp btn"
-        on:click={() => {
-          subRedditInput.scrollIntoView({ behavior: 'smooth' });
-        }}>
-        {@html chveronUpIcon}
-      </button>
+    {#if asideScroll > 200 || mainScroll > 200}
+    <button
+      type="button"
+      class="goUp btn"
+      onclick={() => {
+        document.getElementById('subRedditInput')?.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }}>
+      <ChevronUpIcon />
+    </button>
     {/if}
   </aside>
+
+      {#if comments.length}
+      <div class="comments">
+          <button
+            class="toggleComments"
+            onclick={() => {
+              showComments = !showComments;
+              localStorage.setItem('showComments', String(showComments));
+            }}>
+            <MessageSquareIcon/>
+            &nbsp; {showComments ? 'Hide comments' : 'Show comments'}
+          </button>
+          {#if showComments}
+            <Comments {baseUrl} {comments} depth={0} />
+          {/if}
+        </div>
+      {/if}
+    {/if}
 
 </main>

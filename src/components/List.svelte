@@ -1,15 +1,28 @@
 <script>
+  /**
+   * @import {Video} from '../routes/interfaces' 
+  */
+
   import { fly } from "svelte/transition";
-  import messageIcon from "bundle-text:feather-icons/dist/icons/message-square.svg";
-  import thumbsUpIcon from "bundle-text:feather-icons/dist/icons/thumbs-up.svg";
+  import {MessageSquareIcon} from 'svelte-feather-icons'
+  import {ThumbsUpIcon} from 'svelte-feather-icons'
 
-  export let videos;
-  export let baseUrl;
-  export let setCurrent;
-  export let currentId;
-  export let after;
-  export let loadMore;
+  /** @type {Props} */
+  const {videos, baseUrl, setCurrent, currentId, after, loadMore} = $props();
+  
+  /**
+   * @typedef {object} Props
+   * @prop {Video[]} videos
+   * @prop {string} baseUrl
+   * @prop {(i: number) => void} setCurrent
+   * @prop {string} currentId
+   * @prop {string} after
+   * @prop {(after: string) => void} loadMore
+   */
 
+  /**
+   * @param {Video} video
+   */
   const getImage = video => {
     return (
       (video.secure_media &&
@@ -26,15 +39,19 @@
   }
 
   ul {
+    display: flex;
+    flex-direction: column;
     list-style-type: none;
+    gap: 1rem;
     margin: 0;
     padding: 0;
+    scroll-snap-type: x mandatory;
   }
 
-  li {
+  li.card {
+    scroll-snap-align: center;
     box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset;
     border-radius: 5px;
-    margin-bottom: 20px;
     padding: 20px;
     cursor: pointer;
     display: flex;
@@ -58,7 +75,7 @@
     font-weight: bold;
   }
 
-  li a.title {
+  .title {
     font-weight: 200;
     display: block;
     font-size: 2rem;
@@ -68,6 +85,9 @@
   .content {
     z-index: 2;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .meta {
@@ -125,13 +145,19 @@
     opacity: 1;
   }
 
-  a.title {
+  .title {
     color: white;
     font-size: 1.5rem;
+    text-overflow: ellipsis;
   }
 
   .after {
+    padding-top: .5rem;
     text-align: right;
+    height: 100%;
+    min-width: 10rem;
+    display: flex;
+    justify-content: flex-end;
   }
 
   @media (min-width: 900px) {
@@ -141,25 +167,20 @@
   }
 
   @media (max-width: 900px) {
-    li {
-      margin-right: 20px;
+    li.card {
       min-width: 350px;
     }
-
+    
     ul {
-      display: flex;
+      flex-direction: row;
       overflow-x: auto;
-      align-items: flex-start;
+      align-items: stretch;
       overflow: auto;
       margin-bottom: 10px;
     }
-
-    .tilte {
-      font-size: 1rem;
-    }
   }
 
-  .warnning {
+  .warning {
     font-weight: bold;
     margin-right: 10px;
   }
@@ -168,12 +189,15 @@
 <div class="listContainer">
   <ul>
     {#each videos as { data: video }, i (video.id)}
+      <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
       <li
-        in:fly={{ x: -100, duration: 400, delay: 200 }}
-        on:click={() => {
+        onclick={() => {
           setCurrent(i);
         }}
+        in:fly={{ x: -100, duration: 400, delay: 200 }}
         class:current={currentId === video.id}
+        class="card"
         style={`background-color: hsl(${240 + i * 5}, 50%, 11%)`}>
         {#if video.thumbnail}
           <div class="thumbnail">
@@ -184,14 +208,14 @@
               alt={video.title} />
             <div
               class="overlay"
-              style={`background: linear-gradient(90deg, hsla(${240 + i * 5}, 50%, 11%, 1) 30%, hsla(${240 + i * 5}, 50%, 11%, .7) 60%,hsla(${240 + i * 5}, 50%, 11%, 0) 100%)`} />
+              style={`background: linear-gradient(90deg, hsla(${240 + i * 5}, 50%, 11%, 1) 30%, hsla(${240 + i * 5}, 50%, 11%, .7) 60%,hsla(${240 + i * 5}, 50%, 11%, 0) 100%)`} ></div>
           </div>
         {/if}
 
         <div class="content">
           <a
             class="title"
-            on:click|preventDefault
+            onclick={(e) => {e.preventDefault()}}
             title={video.title}
             href={`${baseUrl}${video.permalink}`}>
             {video.title.replace(/\[\w*\]\s?/, '').length > 70 ? `${video.title
@@ -203,7 +227,7 @@
             <div>
               By:
               <a
-                on:click|stopPropagation
+                onclick={(e) => e.stopPropagation()}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`${baseUrl}/u/${video.author}`}>
@@ -213,26 +237,26 @@
 
             <div class="counters">
               {#if video.over_18}
-                <span class="warnning">[NSFW]</span>
+                <span class="warning">[NSFW]</span>
               {/if}
               {#if video.spoiler}
-                <span class="warnning">[SPOILER]</span>
+                <span class="warning">[SPOILER]</span>
               {/if}
 
-              {@html messageIcon}
+              <MessageSquareIcon/>
               &nbsp;
               <a
                 href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}
-                on:click|stopPropagation
+                onclick={(e) => e.stopPropagation()}
                 target="_blank"
                 rel="noopener noreferrer">
                 {video.num_comments}
               </a>
               <span class="separator">&ndash;</span>
-              {@html thumbsUpIcon}
+              <ThumbsUpIcon/>
               &nbsp;
               <a
-                on:click|stopPropagation
+                onclick={(e) => e.stopPropagation()}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`${baseUrl}${video.permalink}#siteTable_t3_emy0l0`}>
@@ -244,17 +268,18 @@
         </div>
       </li>
     {/each}
+    <li>
+        {#if after}
+        <div class="after">
+          <button
+            disabled={after === 'loading'}
+            type="button"
+            class="btn"
+            onclick={() => loadMore(after)}>
+            {after === 'loading' ? 'Loading...' : 'Load More'}
+          </button>
+        </div>
+      {/if}
+      </li>
   </ul>
-
-  {#if after}
-    <div class="after">
-      <button
-        disabled={after === 'loading'}
-        type="button"
-        class="btn"
-        on:click={() => loadMore(after)}>
-        {after === 'loading' ? 'Loading...' : 'Load More'}
-      </button>
-    </div>
-  {/if}
 </div>

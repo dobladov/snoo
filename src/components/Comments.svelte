@@ -1,11 +1,22 @@
 <script>
   import { DateTime } from "luxon";
   import {parse} from "marked";
-  import micIcon from "bundle-text:feather-icons/dist/icons/mic.svg";
+  import {MicIcon} from 'svelte-feather-icons'
+  import Comments from "./Comments.svelte";
 
-  export let comments;
-  export let depth;
-  export let baseUrl;
+  /**
+   * @import {Comment} from '../routes/interfaces'
+   */
+
+  /** @type {Props} */
+  const {comments, depth, baseUrl} = $props();
+
+  /**
+    * @typedef {object} Props
+    * @prop {Comment[]} comments
+    * @prop {number} depth
+    * @prop {string} baseUrl
+    */
 </script>
 
 <style>
@@ -62,7 +73,7 @@
           </a>
           <span>
             {#if comment.is_submitter}
-              {@html micIcon}
+              <MicIcon/>
             {/if}
           </span>
           <span>
@@ -74,7 +85,7 @@
       </li>
 
       {#if comment.replies}
-        <svelte:self
+        <Comments
           {baseUrl}
           comments={comment.replies.data.children}
           depth={depth + 1} />

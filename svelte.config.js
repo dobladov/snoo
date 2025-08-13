@@ -1,13 +1,16 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-static';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
+  // TODO: enable and adapt to Runes
+  // compilerOptions: {
+  //   runes: true,
+  // },
   kit: {
-    adapter: adapter(),
+    adapter: adapter({
+      fallback: 'index.html',
+    }),
   },
-  //   compilerOptions: {
-  //     css: false,
-  //   },
 };
 
 export default config;

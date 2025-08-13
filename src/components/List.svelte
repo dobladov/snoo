@@ -20,6 +20,9 @@
    * @prop {(after: string) => void} loadMore
    */
 
+  /**
+   * @param {Video} video
+   */
   const getImage = video => {
     return (
       (video.secure_media &&

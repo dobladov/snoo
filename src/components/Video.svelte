@@ -10,10 +10,10 @@
     regex.test(url) ? `&${url.match(regex)?.[0]}` : "";
 
   /**
-   * @param {string} entites
+   * @param {string} entities
    */
-  const htmlDecode = entites => {
-    const doc = new DOMParser().parseFromString(entites, "text/html");
+  const htmlDecode = entities => {
+    const doc = new DOMParser().parseFromString(entities, "text/html");
     return doc.documentElement.textContent;
   };
 </script>

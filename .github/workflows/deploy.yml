@@ -21,7 +21,7 @@ jobs:
           npm install
           # npm test
           npm run build
-          touch dist/.nojekyll
+          touch build/.nojekyll
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v4

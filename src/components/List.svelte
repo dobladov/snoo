@@ -182,6 +182,8 @@
 <div class="listContainer">
   <ul>
     {#each videos as { data: video }, i (video.id)}
+      <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
       <li
         on:click={() => {
           setCurrent(i);
@@ -199,7 +201,7 @@
               alt={video.title} />
             <div
               class="overlay"
-              style={`background: linear-gradient(90deg, hsla(${240 + i * 5}, 50%, 11%, 1) 30%, hsla(${240 + i * 5}, 50%, 11%, .7) 60%,hsla(${240 + i * 5}, 50%, 11%, 0) 100%)`} />
+              style={`background: linear-gradient(90deg, hsla(${240 + i * 5}, 50%, 11%, 1) 30%, hsla(${240 + i * 5}, 50%, 11%, .7) 60%,hsla(${240 + i * 5}, 50%, 11%, 0) 100%)`} ></div>
           </div>
         {/if}
 

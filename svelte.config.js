@@ -7,6 +7,9 @@ const config = {
   //   runes: true,
   // },
   kit: {
+    paths: {
+      base: '/snoo',
+    },
     adapter: adapter({
       fallback: 'index.html',
     }),

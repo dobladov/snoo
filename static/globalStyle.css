@@ -3,6 +3,16 @@ html {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+:root {
+  --color-text: #ffffff;
+  --color-bg: #0e0e11;
+  --color-link: #e04a6d;
+  --color-btn: hsl(346, 71%, 58%);
+  --color-btn-hover: hsl(346, 71%, 38%);
+  --color-shadow-inset: rgba(255, 255, 255, 0.15);
+}
+
 *,
 *:before,
 *:after {
@@ -12,8 +22,8 @@ html {
 }
 
 body {
-  color: white;
-  background-color: #0e0e11;
+  color: var(--color-text);
+  background-color: var(--color-bg);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   line-height: 1.6;
@@ -23,7 +33,7 @@ body {
 }
 
 a {
-  color: #e04a6d;
+  color: var(--color-link);
   text-decoration: none;
 }
 
@@ -32,9 +42,9 @@ a:hover {
 }
 
 .btn {
-  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset;
-  background-color: hsl(346, 71%, 58%);
-  color: white;
+  box-shadow: 0px 1px 0px var(--color-shadow-inset) inset;
+  background-color: var(--color-btn);
+  color: var(--color-text);
   border: none;
   padding: 20px 40px;
   border-radius: 2px;
@@ -42,5 +52,5 @@ a:hover {
 }
 
 .btn:hover {
-  background-color: hsl(346, 71%, 38%);
+  background-color: var(--color-btn-hover);
 }

@@ -173,7 +173,7 @@
     }
   }
 
-  .warnning {
+  .warning {
     font-weight: bold;
     margin-right: 10px;
   }
@@ -230,10 +230,10 @@
 
             <div class="counters">
               {#if video.over_18}
-                <span class="warnning">[NSFW]</span>
+                <span class="warning">[NSFW]</span>
               {/if}
               {#if video.spoiler}
-                <span class="warnning">[SPOILER]</span>
+                <span class="warning">[SPOILER]</span>
               {/if}
 
               <MessageSquareIcon/>

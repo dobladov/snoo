@@ -10,6 +10,7 @@ export interface Video {
     author: string;
     ups: number;
     downs: number;
+    num_comments: number;
   };
 }
 

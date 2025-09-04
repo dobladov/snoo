@@ -18,20 +18,20 @@
   "author": "dobladov",
   "devDependencies": {
     "eslint": "8.27.0",
-    "eslint-config-standard": "17.0.0",
-    "eslint-plugin-import": "2.26.0",
+    "eslint-config-standard": "17.1.0",
+    "eslint-plugin-import": "2.32.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "6.1.1",
     "svelte-feather-icons": "^4.2.0"
   },
   "dependencies": {
     "@sveltejs/adapter-static": "3.0.9",
-    "@sveltejs/kit": "2.28.0",
-    "@sveltejs/vite-plugin-svelte": "6.1.1",
-    "luxon": "3.1.0",
-    "marked": "16.1.2",
-    "svelte": "5.38.1",
+    "@sveltejs/kit": "2.37.0",
+    "@sveltejs/vite-plugin-svelte": "6.1.4",
+    "luxon": "3.7.1",
+    "marked": "16.2.1",
+    "svelte": "5.38.6",
     "svelte-check": "4.3.1",
-    "vite": "7.1.2"
+    "vite": "7.1.4"
   }
 }

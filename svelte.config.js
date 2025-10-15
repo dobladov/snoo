@@ -1,4 +1,5 @@
 import adapter from '@sveltejs/adapter-static';
+const isDev = process.env.NODE_ENV === 'development';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -8,7 +9,7 @@ const config = {
   // },
   kit: {
     paths: {
-      base: '/snoo',
+      base: isDev ? '' : '/snoo',
     },
     adapter: adapter({
       fallback: 'index.html',

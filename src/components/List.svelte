@@ -120,10 +120,11 @@
     height: 100%;
     box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset;
     transition: all 0.4s;
+    opacity: 0.6;
   }
 
   li:hover .overlay {
-    opacity: 0.6;
+    opacity: 0.3;
   }
 
   img {
